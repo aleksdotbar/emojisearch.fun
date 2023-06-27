@@ -9,11 +9,9 @@ const openai = new OpenAIApi(config)
 export const runtime = "edge"
 
 export const POST = async (req: Request) => {
-  const {
-    messages: [message],
-  } = await req.json()
+  const { messages } = await req.json()
 
-  const prompt = message.content.trim()
+  const prompt = messages.at(-1)?.content.trim()
 
   const key = `emoji:${prompt}`
 

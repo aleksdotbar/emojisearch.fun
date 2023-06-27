@@ -13,7 +13,7 @@ const splitEmojis = (text: string) =>
 const copyToClipboard = (text: string) => navigator.clipboard.writeText(text)
 
 const Home = () => {
-  const { messages, handleInputChange, handleSubmit } = useChat()
+  const { messages, setInput, handleSubmit } = useChat()
   const { content = "", role } = messages.at(-1) ?? {}
   const emojis = role === "assistant" ? splitEmojis(content) : []
   const inputRef = useRef<HTMLInputElement>(null)
@@ -26,7 +26,7 @@ const Home = () => {
     <div className="flex flex-col w-full gap-8 max-w-md py-24 mx-auto stretch">
       <form onSubmit={handleSubmit}>
         <div className="relative flex items-center">
-          <Input ref={inputRef} onChange={handleInputChange} />
+          <Input ref={inputRef} onInput={() => setInput(inputRef.current?.value.trim() ?? "")} />
         </div>
       </form>
 
