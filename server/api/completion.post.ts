@@ -15,7 +15,7 @@ export default eventHandler(async (event) => {
 
   const saved: string | null = await kv.get(key)
 
-  if (saved) return saved
+  if (saved) return new Response(saved)
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
