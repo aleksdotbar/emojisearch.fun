@@ -7,6 +7,7 @@ const config = new Configuration({ apiKey })
 const openai = new OpenAIApi(config)
 
 export default eventHandler(async (event) => {
+  console.log(apiKey)
   let { prompt } = await readBody(event)
 
   prompt = prompt.trim()
