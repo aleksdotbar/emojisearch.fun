@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from "openai-edge"
 import { OpenAIStream } from "ai"
-import { kv } from "@vercel/kv"
+// import { kv } from "@vercel/kv"
 import { H3Event } from "h3"
 
 const { openaiApiKey: apiKey } = useRuntimeConfig()
@@ -14,9 +14,9 @@ export default eventHandler(async (event) => {
 
   const key = `emoji:${prompt}`
 
-  const saved: string | null = await kv.get(key)
+  // const saved: string | null = await kv.get(key)
 
-  if (saved) return saved
+  // if (saved) return saved
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -36,8 +36,8 @@ export default eventHandler(async (event) => {
 
   const stream = OpenAIStream(response, {
     onCompletion: async (value) => {
-      await kv.set(key, value)
-      await kv.expire(key, 60 * 60 * 24)
+      // await kv.set(key, value)
+      // await kv.expire(key, 60 * 60 * 24)
     },
   })
 
