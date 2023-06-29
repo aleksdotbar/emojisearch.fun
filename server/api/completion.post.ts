@@ -34,7 +34,12 @@ export default eventHandler(async (event) => {
     ],
   })
 
-  const stream = OpenAIStream(response)
+  const stream = OpenAIStream(response, {
+    onCompletion: async (value) => {
+      await kv.set(key, value)
+      await kv.expire(key, 60 * 60 * 24)
+    },
+  })
 
   return streamResponse(event, stream)
 })
