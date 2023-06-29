@@ -13,9 +13,9 @@ export default eventHandler(async (event) => {
 
   const key = `emoji:${prompt}`
 
-  const saved: string | null = await kv.get(key)
+  // const saved: string | null = await kv.get(key)
 
-  if (saved) return new Response(saved)
+  // if (saved) return new Response(saved)
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -35,8 +35,8 @@ export default eventHandler(async (event) => {
 
   const stream = OpenAIStream(response, {
     onCompletion: async (value) => {
-      await kv.set(key, value)
-      await kv.expire(key, 60 * 60 * 24)
+      // await kv.set(key, value)
+      // await kv.expire(key, 60 * 60 * 24)
     },
   })
 
