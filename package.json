@@ -10,7 +10,15 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxthq/ui": "^2.5.0",
     "@types/node": "^18",
+    "@vueuse/nuxt": "^10.2.1",
     "nuxt": "^3.6.1"
+  },
+  "dependencies": {
+    "@vercel/kv": "^0.2.2",
+    "ai": "^2.1.10",
+    "grapheme-splitter": "^1.0.4",
+    "openai-edge": "^1.1.0"
   }
 }
