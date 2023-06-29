@@ -7,7 +7,6 @@ const config = new Configuration({ apiKey })
 const openai = new OpenAIApi(config)
 
 export default eventHandler(async (event) => {
-  console.log(apiKey)
   let { prompt } = await readBody(event)
 
   prompt = prompt.trim()
@@ -34,6 +33,8 @@ export default eventHandler(async (event) => {
     ],
   })
 
+  console.log(response)
+
   const stream = OpenAIStream(response, {
     onCompletion: async (value) => {
       // await kv.set(key, value)
@@ -41,5 +42,22 @@ export default eventHandler(async (event) => {
     },
   })
 
-  return streamToResponse(stream, event.node.res)
+  // return streamToResponse(stream, event.node.res)
+
+  const reader = stream.getReader()
+
+  return new Promise(() => {
+    const read = () => {
+      reader.read().then(({ done, value }) => {
+        if (done) {
+          event.node.res.end()
+          return
+        }
+        event.node.res.write(value)
+        read()
+      })
+    }
+
+    read()
+  })
 })
