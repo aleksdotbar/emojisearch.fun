@@ -63,7 +63,7 @@ export default eventHandler(async (event) => {
 const createMessage = (prompt: string) =>
   ({
     role: "system",
-    content: `Generate a sequence of unique, standalone emojis, including individual emojis and recognized combinations such as the family emoji, that are relevant to the concept of '${prompt}'. Each emoji or emoji combination should be distinct and no emoji or emoji combination should be repeated. Emojis should be separated by a space.`,
+    content: `Generate a sequence of unique, standalone emojis, including individual emojis and recognized combinations such as the family emoji, that are relevant to the concept of '${prompt}'. Each emoji or emoji combination should be distinct and no emoji or emoji combination should be repeated. Please do not include any spaces between the emojis.`,
   } as const)
 
 const streamResponse = (event: H3Event, stream: ReadableStream) => {

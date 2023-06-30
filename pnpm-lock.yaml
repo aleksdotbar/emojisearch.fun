@@ -14,6 +14,9 @@ dependencies:
   ai:
     specifier: ^2.1.10
     version: 2.1.10(react@18.2.0)(svelte@3.59.2)(vue@3.3.4)
+  graphemer:
+    specifier: ^1.4.0
+    version: 1.4.0
   openai-edge:
     specifier: ^1.1.0
     version: 1.1.0
@@ -3357,6 +3360,10 @@ packages:
   /graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
     dev: true
+
+  /graphemer@1.4.0:
+    resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
+    dev: false
 
   /gzip-size@7.0.0:
     resolution: {integrity: sha512-O1Ld7Dr+nqPnmGpdhzLmMTQ4vAsD+rHwMm1NLUmoUFFymBOMKxCCrtDxqdBRYXdeEPEi3SyoR4TizJLQrnKBNA==}
