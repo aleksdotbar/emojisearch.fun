@@ -24,7 +24,20 @@ export default eventHandler(async (event) => {
 
   const saved: string | null = await kv.get(key)
 
-  if (saved) return saved
+  if (saved) {
+    const stream = new ReadableStream({
+      async start(controller) {
+        for (const chunk of saved.split(" ")) {
+          const bytes = new TextEncoder().encode(chunk + " ")
+          controller.enqueue(bytes)
+          await new Promise((r) => setTimeout(r, Math.floor(Math.random() * 40) + 10))
+        }
+        controller.close()
+      },
+    })
+
+    return streamResponse(event, stream)
+  }
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
@@ -50,7 +63,7 @@ export default eventHandler(async (event) => {
 const createMessage = (prompt: string) =>
   ({
     role: "system",
-    content: `Generate a sequence of unique signle emojis, each separated by a space, that are relevant to the concept of ${prompt}.  Each emoji should be a standalone symbol and distinct, with no repetitions or combinations of emojis.`,
+    content: `Generate a sequence of unique, standalone emojis, including individual emojis and recognized combinations such as the family emoji, that are relevant to the concept of '${prompt}'. Each emoji or emoji combination should be distinct and no emoji or emoji combination should be repeated. Emojis should be separated by a space.`,
   } as const)
 
 const streamResponse = (event: H3Event, stream: ReadableStream) => {
