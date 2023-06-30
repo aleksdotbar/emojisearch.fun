@@ -13,7 +13,8 @@
     "@nuxtjs/fontaine": "^0.4.0",
     "@nuxtjs/google-fonts": "^3.0.1",
     "@vueuse/nuxt": "^10.2.1",
-    "nuxt": "^3.6.1"
+    "nuxt": "^3.6.1",
+    "nuxt-vercel-analytics": "^0.2.2"
   },
   "dependencies": {
     "@upstash/ratelimit": "^0.4.3",
