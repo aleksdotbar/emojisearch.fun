@@ -13,7 +13,7 @@ const onSubmit = (e: Event) => {
 
 <template>
   <Html>
-    <Body class="font-[Chewy]">
+    <Body class="font-[Chewy] min-w-[320px]">
       <header
         class="backdrop-blur flex-none border-b border-gray-200 dark:border-gray-800 bg-white/75 dark:bg-gray-900/75"
       >
@@ -22,14 +22,14 @@ const onSubmit = (e: Event) => {
         </UContainer>
       </header>
 
-      <UContainer as="main" class="fixed top-1/4 inset-x-0">
+      <UContainer as="main" class="mt-36 sm:mt-52">
         <h1 class="text-4xl md:text-6xl text-center font-medium">
           Find <span class="text-yellow-400">emojis</span> for any context
         </h1>
 
-        <div class="mt-20 max-w-md mx-auto">
+        <div class="mt-16 max-w-md mx-auto">
           <form @submit.prevent="onSubmit">
-            <UInput v-model="input" :loading="isLoading" size="md" autofocus>
+            <UInput v-model="input" :loading="isLoading" size="xl" autofocus>
               <template #leading>
                 <span class="text-xs" :class="{ 'animate-spin': isLoading }">
                   {{ isLoading ? "⏳" : "🔍" }}
@@ -43,7 +43,7 @@ const onSubmit = (e: Event) => {
             <p class="mt-2 text-red-500 text-center">Something's not right. Please try again.</p>
           </div>
 
-          <div v-else class="mt-6 grid grid-cols-10 justify-items-center">
+          <div v-else class="mt-6 grid grid-cols-6 sm:grid-cols-10 justify-items-center">
             <EmojiButton v-for="emoji in emojis" :key="emoji" :emoji="emoji" class="grow-0" />
           </div>
         </div>
