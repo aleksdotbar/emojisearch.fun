@@ -7,7 +7,7 @@ import { Ratelimit } from "@upstash/ratelimit"
 const { openaiApiKey: apiKey } = useRuntimeConfig()
 const config = new Configuration({ apiKey })
 const openai = new OpenAIApi(config)
-const ratelimit = new Ratelimit({ redis: kv, limiter: Ratelimit.fixedWindow(5, "60s") })
+const ratelimit = new Ratelimit({ redis: kv, limiter: Ratelimit.fixedWindow(10, "60s") })
 
 export default eventHandler(async (event) => {
   const headers = getHeaders(event)
@@ -50,7 +50,7 @@ export default eventHandler(async (event) => {
 const createMessage = (prompt: string) =>
   ({
     role: "system",
-    content: `Generate a sequence of unique emojis, each separated by a space, that are relevant to the concept of ${prompt}. Each emoji should be distinct and no emoji should be repeated.`,
+    content: `Generate a sequence of unique signle emojis, each separated by a space, that are relevant to the concept of ${prompt}.  Each emoji should be a standalone symbol and distinct, with no repetitions or combinations of emojis.`,
   } as const)
 
 const streamResponse = (event: H3Event, stream: ReadableStream) => {
