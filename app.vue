@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { useCompletion } from "ai/vue"
 
-const { input, completion, isLoading, handleSubmit } = useCompletion()
+const { input, completion, isLoading, error, handleSubmit } = useCompletion()
 
 const emojis = computed(() => splitEmojis(completion.value))
+
+const onSubmit = (e: Event) => {
+  error.value = undefined
+  handleSubmit(e)
+}
 </script>
 
 <template>
@@ -17,7 +22,7 @@ const emojis = computed(() => splitEmojis(completion.value))
 
   <UContainer as="main" class="mt-20">
     <div class="max-w-md mx-auto">
-      <form @submit.prevent="handleSubmit">
+      <form @submit.prevent="onSubmit">
         <UInput v-model="input" :loading="isLoading" size="md" autofocus>
           <template #leading>
             <span class="text-xs" :class="{ 'animate-spin': isLoading }">
@@ -27,7 +32,12 @@ const emojis = computed(() => splitEmojis(completion.value))
         </UInput>
       </form>
 
-      <div class="mt-6 grid grid-cols-10 justify-items-center">
+      <div v-if="error" class="mt-6">
+        <div class="text-2xl text-center">😢</div>
+        <p class="mt-2 text-red-500 text-center">Something's not right. Please try again.</p>
+      </div>
+
+      <div v-else class="mt-6 grid grid-cols-10 justify-items-center">
         <EmojiButton v-for="emoji in emojis" :key="emoji" :emoji="emoji" class="grow-0" />
       </div>
     </div>

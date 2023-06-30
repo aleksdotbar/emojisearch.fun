@@ -14,9 +14,9 @@
     "nuxt": "^3.6.1"
   },
   "dependencies": {
+    "@upstash/ratelimit": "^0.4.3",
     "@vercel/kv": "^0.2.2",
     "ai": "^2.1.10",
-    "grapheme-splitter": "^1.0.4",
     "openai-edge": "^1.1.0"
   }
 }

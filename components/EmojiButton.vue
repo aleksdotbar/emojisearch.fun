@@ -6,12 +6,7 @@ const { copy, copied } = useClipboard()
 
 <template>
   <UTooltip :text="copied ? 'Copied' : 'Copy'">
-    <UButton
-      variant="ghost"
-      class="w-8 h-8 flex items-center justify-center"
-      square
-      @click="copy(emoji)"
-    >
+    <UButton variant="ghost" class="text-xl" square @click="copy(emoji)">
       {{ emoji }}
     </UButton>
   </UTooltip>
