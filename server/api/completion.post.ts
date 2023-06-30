@@ -25,18 +25,19 @@ export default eventHandler(async (event) => {
   const saved: string | null = await kv.get(key)
 
   if (saved) {
-    const stream = new ReadableStream({
-      async start(controller) {
-        for (const chunk of saved.split(" ")) {
-          const bytes = new TextEncoder().encode(chunk + " ")
-          controller.enqueue(bytes)
-          await new Promise((r) => setTimeout(r, Math.floor(Math.random() * 40) + 10))
-        }
-        controller.close()
-      },
-    })
+    // const stream = new ReadableStream({
+    //   async start(controller) {
+    //     for (const chunk of saved.split(" ")) {
+    //       const bytes = new TextEncoder().encode(chunk + " ")
+    //       controller.enqueue(bytes)
+    //       await new Promise((r) => setTimeout(r, Math.floor(Math.random() * 40) + 10))
+    //     }
+    //     controller.close()
+    //   },
+    // })
 
-    return streamResponse(event, stream)
+    // return streamResponse(event, stream)
+    return saved
   }
 
   const response = await openai.createChatCompletion({
