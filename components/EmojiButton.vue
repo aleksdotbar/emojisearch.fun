@@ -1,12 +1,28 @@
 <script setup lang="ts">
-defineProps<{ emoji: string }>()
+const props = defineProps<{ emoji: string }>()
 
-const { copy, copied } = useClipboard()
+const DELAY = 1500
+
+const { copy, copied } = useClipboard({ copiedDuring: DELAY })
+
+const [isShowing, setIsShowing] = useToggle(true)
+
+const { start } = useTimeoutFn(() => setIsShowing(false), DELAY, { immediate: false })
+
+const onClick = () => {
+  copy(props.emoji)
+  setIsShowing(true)
+  start()
+}
 </script>
 
 <template>
-  <UTooltip :text="copied ? 'Copied' : 'Copy'">
-    <UButton variant="ghost" class="text-xl" square @click="copy(emoji)">
+  <UTooltip
+    :text="copied ? 'Copied' : 'Copy'"
+    :prevent="!isShowing"
+    @mouseleave="setIsShowing(true)"
+  >
+    <UButton variant="ghost" class="text-xl" square @click="onClick">
       {{ emoji }}
     </UButton>
   </UTooltip>
