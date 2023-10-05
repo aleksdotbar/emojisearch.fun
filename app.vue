@@ -10,9 +10,12 @@ useServerSeoMeta({
   ogImage: "https://emojisearch.fun/og.png",
   ogImageWidth: 1200,
   ogImageHeight: 630,
+  ogImageType: "image/png",
   twitterImage: "https://emojisearch.fun/og.png",
   twitterCard: "summary_large_image",
   twitterTitle: "emojisearch.fun",
+  twitterDescription: "AI-powered Emoji Search",
+  twitterCreator: "@xanderbarkhatov",
 })
 
 const { input, completion, isLoading, error, handleSubmit } = useCompletion()
