@@ -18,4 +18,9 @@ export default defineNuxtConfig({
       Chewy: true,
     },
   },
+  nitro: {
+    prerender: {
+      routes: ["/"],
+    },
+  },
 })
