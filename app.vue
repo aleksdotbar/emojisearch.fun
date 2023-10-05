@@ -7,7 +7,11 @@ const emojis = computed(() => splitEmojis(completion.value))
 
 const onSubmit = (e: Event) => {
   error.value = undefined
-  handleSubmit(e)
+  input.value = input.value.trim()
+
+  if (input.value) {
+    handleSubmit(e)
+  }
 }
 </script>
 
