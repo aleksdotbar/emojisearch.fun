@@ -5,9 +5,10 @@ useServerSeoMeta({
   title: "AI-powered Emoji Search",
   ogTitle: "AI-powered Emoji Search",
   description: "Find emojis for any context",
-  ogDescription: "Find emojis for any context",
   ogSiteName: "emojisearch.fun",
   ogImage: "https://emojisearch.fun/og.png",
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
 })
 
 const { input, completion, isLoading, error, handleSubmit } = useCompletion()
