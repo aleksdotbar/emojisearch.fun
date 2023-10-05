@@ -5,21 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@upstash/ratelimit':
-    specifier: ^0.4.3
-    version: 0.4.3
-  '@vercel/kv':
-    specifier: ^0.2.2
-    version: 0.2.2
   ai:
     specifier: ^2.1.10
     version: 2.1.10(react@18.2.0)(svelte@3.59.2)(vue@3.3.4)
   graphemer:
     specifier: ^1.4.0
     version: 1.4.0
-  openai-edge:
-    specifier: ^1.1.0
-    version: 1.1.0
 
 devDependencies:
   '@nuxthq/ui':
@@ -31,6 +22,12 @@ devDependencies:
   '@nuxtjs/google-fonts':
     specifier: ^3.0.1
     version: 3.0.1
+  '@upstash/ratelimit':
+    specifier: ^0.4.3
+    version: 0.4.3
+  '@vercel/kv':
+    specifier: ^0.2.2
+    version: 0.2.2
   '@vueuse/nuxt':
     specifier: ^10.2.1
     version: 10.2.1(nuxt@3.6.1)(vue@3.3.4)
@@ -40,6 +37,9 @@ devDependencies:
   nuxt-vercel-analytics:
     specifier: ^0.2.2
     version: 0.2.2
+  openai-edge:
+    specifier: ^1.1.0
+    version: 1.1.0
 
 packages:
 
@@ -1555,7 +1555,7 @@ packages:
       '@upstash/redis': 1.21.0
     transitivePeerDependencies:
       - encoding
-    dev: false
+    dev: true
 
   /@upstash/ratelimit@0.4.3:
     resolution: {integrity: sha512-Dsp9Mw09Flg28JRklKgFiCXqr3bqv8bbG0kgpUYoHjcgPPolFFyaYOj/I2HExvYLZiogl77NUavBoNvMOK0zUQ==}
@@ -1563,7 +1563,7 @@ packages:
       '@upstash/core-analytics': 0.0.6
     transitivePeerDependencies:
       - encoding
-    dev: false
+    dev: true
 
   /@upstash/redis@1.21.0:
     resolution: {integrity: sha512-c6M+cl0LOgGK/7Gp6ooMkIZ1IDAJs8zFR+REPkoSkAq38o7CWFX5FYwYEqGZ6wJpUGBuEOr/7hTmippXGgL25A==}
@@ -1571,6 +1571,7 @@ packages:
       isomorphic-fetch: 3.0.0
     transitivePeerDependencies:
       - encoding
+    dev: true
 
   /@vercel/analytics@1.0.1:
     resolution: {integrity: sha512-Ux0c9qUfkcPqng3vrR0GTrlQdqNJ2JREn/2ydrVuKwM3RtMfF2mWX31Ijqo1opSjNAq6rK76PwtANw6kl6TAow==}
@@ -1583,6 +1584,7 @@ packages:
       '@upstash/redis': 1.21.0
     transitivePeerDependencies:
       - encoding
+    dev: true
 
   /@vercel/nft@0.22.6:
     resolution: {integrity: sha512-gTsFnnT4mGxodr4AUlW3/urY+8JKKB452LwF3m477RFUJTAaDmcz2JqFuInzvdybYIeyIv1sSONEJxsxnbQ5JQ==}
@@ -3924,6 +3926,7 @@ packages:
       whatwg-fetch: 3.6.2
     transitivePeerDependencies:
       - encoding
+    dev: true
 
   /jest-worker@27.5.1:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
@@ -4575,6 +4578,7 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
+    dev: true
 
   /node-fetch@3.3.1:
     resolution: {integrity: sha512-cRVc/kyto/7E5shrWca1Wsea4y6tL9iYJE5FBCius3JQfb/4P4I295PfhgbJQBLTx6lATE4z+wK0rPM4VS2uow==}
@@ -4838,7 +4842,7 @@ packages:
   /openai-edge@1.1.0:
     resolution: {integrity: sha512-VkXT7yhKjr1QlC/wIMuPW/s003cPHUtiNjt/kH+54iKDZZ7eiGMPuymhpSWJ/zVZfVz6+94okGd6rNuu7JRBDw==}
     engines: {node: '>=12'}
-    dev: false
+    dev: true
 
   /openapi-typescript@6.2.8:
     resolution: {integrity: sha512-yA+y5MHiu6cjmtsGfNLavzVuvGCKzjL3H+exgHDPK6bnp6ZVFibtAiafenNSRDWL0x+7Sw/VPv5SbaqiPLW46w==}
@@ -6206,6 +6210,7 @@ packages:
 
   /tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+    dev: true
 
   /ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
@@ -6668,6 +6673,7 @@ packages:
 
   /webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
+    dev: true
 
   /webpack-sources@3.2.3:
     resolution: {integrity: sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==}
@@ -6720,12 +6726,14 @@ packages:
 
   /whatwg-fetch@3.6.2:
     resolution: {integrity: sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==}
+    dev: true
 
   /whatwg-url@5.0.0:
     resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
     dependencies:
       tr46: 0.0.3
       webidl-conversions: 3.0.1
+    dev: true
 
   /which@2.0.2:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}

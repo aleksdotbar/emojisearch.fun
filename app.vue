@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { useCompletion } from "ai/vue"
 
-useSeoMeta({
+useServerSeoMeta({
   title: "AI-powered Emoji Search",
   ogTitle: "AI-powered Emoji Search",
   description: "Find emojis for any context",
   ogDescription: "Find emojis for any context",
   ogSiteName: "emojisearch.fun",
-  ogImage: "/og.png",
+  ogImage: "https://emojisearch.fun/og.png",
 })
 
 const { input, completion, isLoading, error, handleSubmit } = useCompletion()
