@@ -3,9 +3,10 @@ import { useCompletion } from "ai/vue"
 
 useServerSeoMeta({
   title: "AI-powered Emoji Search",
-  ogTitle: "AI-powered Emoji Search",
   description: "Find emojis for any context",
   ogSiteName: "emojisearch.fun",
+  ogTitle: "emojisearch.fun",
+  ogDescription: "AI-powered Emoji Search",
   ogImage: "https://emojisearch.fun/og.png",
   ogImageWidth: 1200,
   ogImageHeight: 630,
