@@ -3,9 +3,10 @@ import { useCompletion } from "ai/vue"
 
 useSeoMeta({
   title: "AI-powered Emoji Search",
-  ogSiteName: "AI-powered Emoji Search",
+  ogTitle: "AI-powered Emoji Search",
   description: "Find emojis for any context",
   ogDescription: "Find emojis for any context",
+  ogSiteName: "emojisearch.fun",
 })
 
 const { input, completion, isLoading, error, handleSubmit } = useCompletion()
