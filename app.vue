@@ -21,6 +21,12 @@ const onSubmit = (e: Event) => {
 
 <template>
   <Html>
+    <Head>
+      <Link
+        rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕵️‍♂️</text></svg>"
+      />
+    </Head>
     <Body class="font-[Chewy] min-w-[320px]">
       <header
         class="backdrop-blur flex-none border-b border-gray-200 dark:border-gray-800 bg-white/75 dark:bg-gray-900/75"
