@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -1981,12 +1981,18 @@ packages:
       negotiator: 0.6.3
     dev: true
 
-  /acorn-import-assertions@1.9.0(acorn@8.9.0):
+  /acorn-import-assertions@1.9.0(acorn@8.10.0):
     resolution: {integrity: sha512-cmMwop9x+8KFhxvKrKfPYmN6/pKTYYHBqLa0DfvVZcKMJWNyWLnaqND7dx/qn66R7ewM1UX5XMaDVP5wlVTaVA==}
     peerDependencies:
       acorn: ^8
     dependencies:
-      acorn: 8.9.0
+      acorn: 8.10.0
+    dev: true
+
+  /acorn@8.10.0:
+    resolution: {integrity: sha512-F0SAmZ8iUtS//m8DmCTA0jlh6TDKkHQyK6xc6V4KDTyZKA9dnvX9/3sRTVQrWm79glUAZbnmmNcdYwUIHWVybw==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
     dev: true
 
   /acorn@8.9.0:
@@ -6687,8 +6693,8 @@ packages:
       '@webassemblyjs/ast': 1.11.6
       '@webassemblyjs/wasm-edit': 1.11.6
       '@webassemblyjs/wasm-parser': 1.11.6
-      acorn: 8.9.0
-      acorn-import-assertions: 1.9.0(acorn@8.9.0)
+      acorn: 8.10.0
+      acorn-import-assertions: 1.9.0(acorn@8.10.0)
       browserslist: 4.21.9
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.15.0
