@@ -1,1 +1,1 @@
-## AI-powered emoji search
+# 🕵️‍♂️️ AI-powered emoji search
