@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useCompletion } from "ai/vue"
 
+useServerHead({
+  title: "AI-powered Emoji Search",
+})
+
 const { input, completion, isLoading, error, handleSubmit } = useCompletion()
 
 const emojis = computed(() => splitEmojis(completion.value))
