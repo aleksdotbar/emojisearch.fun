@@ -7,6 +7,7 @@ useSeoMeta({
   description: "Find emojis for any context",
   ogDescription: "Find emojis for any context",
   ogSiteName: "emojisearch.fun",
+  ogImage: "/og.png",
 })
 
 const { input, completion, isLoading, error, handleSubmit } = useCompletion()
