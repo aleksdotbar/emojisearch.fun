@@ -7,7 +7,7 @@ import { Ratelimit } from "@upstash/ratelimit"
 const { openaiApiKey: apiKey } = useRuntimeConfig()
 const config = new Configuration({ apiKey })
 const openai = new OpenAIApi(config)
-const ratelimit = new Ratelimit({ redis: kv, limiter: Ratelimit.fixedWindow(10, "60s") })
+const ratelimit = new Ratelimit({ redis: kv, limiter: Ratelimit.fixedWindow(20, "60s") })
 
 export default eventHandler(async (event) => {
   const headers = getHeaders(event)
