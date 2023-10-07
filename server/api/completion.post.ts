@@ -1,7 +1,7 @@
-import { Configuration, OpenAIApi } from "openai-edge"
-import { OpenAIStream } from "ai"
-import { kv } from "@vercel/kv"
 import { H3Event } from "h3"
+import { OpenAIStream } from "ai"
+import { Configuration, OpenAIApi } from "openai-edge"
+import { kv } from "@vercel/kv"
 import { Ratelimit } from "@upstash/ratelimit"
 
 const { openaiApiKey: apiKey } = useRuntimeConfig()
@@ -28,11 +28,11 @@ export default eventHandler(async (event) => {
 
   const response = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
-    temperature: 0.3,
-    max_tokens: 50,
-    top_p: 0.2,
-    frequency_penalty: 0.6,
-    presence_penalty: 1,
+    max_tokens: 300,
+    temperature: 0.5,
+    top_p: 0.5,
+    frequency_penalty: 0.5,
+    presence_penalty: 0.5,
     stream: true,
     messages: [createMessage(prompt)],
   })
@@ -49,7 +49,7 @@ export default eventHandler(async (event) => {
 const createMessage = (prompt: string) =>
   ({
     role: "system",
-    content: `Generate a sequence of unique, standalone emojis, including individual emojis and recognized combinations such as the family emoji, that are relevant to the concept of '${prompt}'. Each emoji or emoji combination should be distinct and no emoji or emoji combination should be repeated. Please do not include any spaces between the emojis.`,
+    content: `Generate 20 unique valid emojis that are most relevant to the prompt: "${prompt}". No emoji should be repeated. Do not include any spaces between the emojis. Do not include invalid emojis. If the combination of unicode characters is not a valid emoji do not include it.`,
   } as const)
 
 const streamResponse = (event: H3Event, stream: ReadableStream) => {
