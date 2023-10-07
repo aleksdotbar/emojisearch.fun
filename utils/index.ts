@@ -1,4 +1,3 @@
-import Graphemer from "graphemer"
+import split from "lodash.split"
 
-export const splitEmojis = (text: string) =>
-  text ? new Graphemer().splitGraphemes(text.replace(/\s/g, "")) : []
+export const splitEmojis = (text: string) => (text ? split(text.replace(/\s/g, ""), "") : [])
