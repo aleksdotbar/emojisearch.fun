@@ -1,4 +1,3 @@
-import { H3Event } from "h3"
 import { OpenAIStream } from "ai"
 import { Configuration, OpenAIApi } from "openai-edge"
 import { kv } from "@vercel/kv"
@@ -27,47 +26,21 @@ export default eventHandler(async (event) => {
   }
 
   const response = await openai.createChatCompletion({
+    messages: createMessages(prompt),
     model: "gpt-3.5-turbo",
-    max_tokens: 300,
-    temperature: 0.5,
+    max_tokens: 256,
+    temperature: 0.8,
     top_p: 0.5,
-    frequency_penalty: 0.5,
-    presence_penalty: 0.5,
+    frequency_penalty: 0.6,
+    presence_penalty: 1,
     stream: true,
-    messages: [createMessage(prompt)],
   })
 
   const stream = OpenAIStream(response, {
     onCompletion: async (value) => {
-      await kv.set(key, value)
+      await kv.set(key, value, { ex: 60 * 60 * 24 })
     },
   })
 
   return streamResponse(event, stream)
 })
-
-const createMessage = (prompt: string) =>
-  ({
-    role: "system",
-    content: `Generate 20 unique valid emojis that are most relevant to the prompt: "${prompt}". No emoji should be repeated. Do not include any spaces between the emojis. Do not include invalid emojis. If the combination of unicode characters is not a valid emoji do not include it.`,
-  } as const)
-
-const streamResponse = (event: H3Event, stream: ReadableStream) => {
-  event._handled = true
-
-  // @ts-expect-error _data will be there.
-  event.node.res._data = stream
-
-  if (event.node.res.socket) {
-    stream.pipeTo(
-      new WritableStream({
-        write(chunk) {
-          event.node.res.write(chunk)
-        },
-        close() {
-          event.node.res.end()
-        },
-      })
-    )
-  }
-}
