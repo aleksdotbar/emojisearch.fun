@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCompletion } from "ai/vue"
+import { useCompletion } from "ai/vue";
 
 useServerSeoMeta({
   title: "AI-powered Emoji Search",
@@ -16,36 +16,30 @@ useServerSeoMeta({
   twitterTitle: "emojisearch.fun",
   twitterDescription: "AI-powered Emoji Search",
   twitterCreator: "@xanderbarkhatov",
-})
+});
 
-const { input, completion, isLoading, error, handleSubmit } = useCompletion()
+const { input, completion, isLoading, error, handleSubmit } = useCompletion();
 
-const emojis = computed(() => splitEmojis(completion.value))
+const emojis = computed(() => splitEmojis(completion.value));
 
 const onSubmit = (e: Event) => {
-  error.value = undefined
-  input.value = input.value.trim()
+  error.value = undefined;
+  input.value = input.value.trim();
 
   if (input.value) {
-    handleSubmit(e)
+    handleSubmit(e);
   }
-}
+};
 </script>
 
 <template>
   <Html>
-    <Head>
-      <Link
-        rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕵️‍♂️</text></svg>"
-      />
-    </Head>
     <Body class="font-[Chewy] min-w-[320px]">
       <header
         class="backdrop-blur flex-none border-b border-gray-200 dark:border-gray-800 bg-white/75 dark:bg-gray-900/75"
       >
         <UContainer class="flex h-14 items-center justify-between">
-          <div class="text-xl">🕵️‍♂️</div>
+          <div class="text-xl">🔍</div>
 
           <NuxtLink to="https://github.com/xanderbarkhatov/emojisearch" target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 15 15">
