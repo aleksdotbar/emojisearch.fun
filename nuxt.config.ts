@@ -23,4 +23,8 @@ export default defineNuxtConfig({
       routes: ["/"],
     },
   },
-})
+  fontMetrics: {
+    fallbacks: ["BlinkMacSystemFont", "Segoe UI", "Helvetica Neue", "Arial", "Noto Sans"],
+    fonts: ["Chewy"],
+  },
+});
