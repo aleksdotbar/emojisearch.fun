@@ -30,7 +30,7 @@ export default eventHandler(async (event) => {
 
   const stream = OpenAIStream(response, {
     onCompletion: async (value) => {
-      await kv.set(key, value);
+      await kv.set(key, value, { ex: 60 * 60 * 24 });
     },
   });
 
