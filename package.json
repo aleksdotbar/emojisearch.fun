@@ -9,19 +9,20 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@nuxthq/ui": "^2.5.0",
-    "@nuxtjs/fontaine": "^0.4.0",
-    "@nuxtjs/google-fonts": "^3.0.1",
-    "@types/lodash.split": "^4.4.7",
-    "@upstash/ratelimit": "^0.4.3",
-    "@vercel/kv": "^0.2.2",
-    "@vueuse/nuxt": "^10.2.1",
-    "nuxt": "^3.6.1",
-    "nuxt-vercel-analytics": "^0.2.2",
-    "openai-edge": "^1.1.0"
+    "@nuxthq/ui": "^2.7.0",
+    "@nuxtjs/fontaine": "^0.4.1",
+    "@nuxtjs/google-fonts": "^3.1.3",
+    "@types/lodash.split": "^4.4.9",
+    "@upstash/ratelimit": "^1.0.0",
+    "@vercel/edge": "^1.1.1",
+    "@vercel/kv": "^1.0.1",
+    "@vueuse/nuxt": "^10.7.0",
+    "nuxt": "^3.8.2",
+    "nuxt-vercel-analytics": "^1.0.0",
+    "openai-edge": "^1.2.2"
   },
   "dependencies": {
-    "ai": "^2.1.10",
+    "ai": "^2.2.29",
     "lodash.split": "^4.4.2"
   }
 }

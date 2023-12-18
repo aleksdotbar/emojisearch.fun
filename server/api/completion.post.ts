@@ -1,28 +1,20 @@
-import { OpenAIStream } from "ai"
-import { Configuration, OpenAIApi } from "openai-edge"
-import { kv } from "@vercel/kv"
-import { Ratelimit } from "@upstash/ratelimit"
+import { OpenAIStream } from "ai";
+import { Configuration, OpenAIApi } from "openai-edge";
+import { kv } from "@vercel/kv";
 
-const { openaiApiKey: apiKey } = useRuntimeConfig()
-const config = new Configuration({ apiKey })
-const openai = new OpenAIApi(config)
-const ratelimit = new Ratelimit({ redis: kv, limiter: Ratelimit.fixedWindow(20, "60s") })
+const { openaiApiKey: apiKey } = useRuntimeConfig();
+const config = new Configuration({ apiKey });
+const openai = new OpenAIApi(config);
 
 export default eventHandler(async (event) => {
-  const headers = getHeaders(event)
-  const ip = headers["x-real-ip"] || headers["x-forwarded-for"]
-  const { success } = await ratelimit.limit(ip ?? "anonymous")
+  const prompt = await readBody(event).then((b) => b.prompt.trim().toLowerCase());
 
-  if (!success) return createError({ statusCode: 429, statusMessage: "Too Many Requests" })
+  const key = `emoji:${prompt}`;
 
-  const prompt = await readBody(event).then((b) => b.prompt.trim().toLowerCase())
-
-  const key = `emoji:${prompt}`
-
-  const saved: string | null = await kv.get(key)
+  const saved: string | null = await kv.get(key);
 
   if (saved) {
-    return saved
+    return saved;
   }
 
   const response = await openai.createChatCompletion({
@@ -34,13 +26,13 @@ export default eventHandler(async (event) => {
     frequency_penalty: 0.6,
     presence_penalty: 1,
     stream: true,
-  })
+  });
 
   const stream = OpenAIStream(response, {
     onCompletion: async (value) => {
-      await kv.set(key, value, { ex: 60 * 60 * 24 })
+      await kv.set(key, value);
     },
-  })
+  });
 
-  return streamResponse(event, stream)
-})
+  return streamResponse(event, stream);
+});
