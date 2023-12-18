@@ -17,7 +17,7 @@ const middleware = async ({ headers }: Request, context: RequestContext) => {
 };
 
 export const config = {
-  matcher: /^\/api\/(.*)$/,
+  matcher: ["/api/completion"],
 };
 
 export default middleware;
