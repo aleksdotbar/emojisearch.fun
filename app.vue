@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCompletion } from "ai/vue";
+import { useQuery } from "@tanstack/vue-query";
 
 useServerSeoMeta({
   title: "AI-powered Emoji Search",
@@ -18,18 +18,41 @@ useServerSeoMeta({
   twitterCreator: "@xanderbarkhatov",
 });
 
-const { input, completion, isLoading, error, handleSubmit } = useCompletion();
+const route = useRoute();
 
-const emojis = computed(() => splitEmojis(completion.value));
+const prompt = computed(() => route.query.prompt?.toString().trim());
 
-const onSubmit = (e: Event) => {
-  error.value = undefined;
-  input.value = input.value.trim();
+const params = reactive({ prompt });
 
-  if (input.value) {
-    handleSubmit(e);
+const { data, error, isLoading } = useQuery({
+  queryKey: ["emojis", params],
+  queryFn: () => $fetch("/api/completion", { params }),
+  enabled: () => !!prompt.value,
+});
+
+const sizer = ref<HTMLSpanElement>();
+
+const router = useRouter();
+
+const onSubmit = async (e: Event) => {
+  const form = e.target as HTMLFormElement;
+  const formData = new FormData(form);
+  const newPrompt = formData.get("prompt")?.toString().trim();
+
+  if (newPrompt && newPrompt !== prompt.value) {
+    await router.push({ query: { prompt: newPrompt } });
   }
 };
+
+const input = ref<ComponentPublicInstance>();
+
+whenever(
+  logicNot(isLoading),
+  () => {
+    input.value?.$el.firstChild.select();
+  },
+  { flush: "post" }
+);
 </script>
 
 <template>
@@ -42,7 +65,14 @@ const onSubmit = (e: Event) => {
 
         <div class="mt-16 max-w-md mx-auto">
           <form @submit.prevent="onSubmit">
-            <UInput v-model="input" :loading="isLoading" size="xl" autofocus>
+            <UInput
+              :model-value="prompt"
+              :loading="isLoading"
+              ref="input"
+              name="prompt"
+              size="xl"
+              autofocus
+            >
               <template #leading>
                 <span class="text-xs" :class="{ 'animate-spin': isLoading }">
                   {{ isLoading ? "⏳" : "🔍" }}
@@ -56,9 +86,15 @@ const onSubmit = (e: Event) => {
             <p class="mt-2 text-red-500 text-center">Something's not right. Please try again.</p>
           </div>
 
-          <div v-else class="mt-6 grid grid-cols-6 sm:grid-cols-10 justify-items-center">
+          <div
+            v-else-if="!isLoading"
+            class="mt-6 grid grid-cols-6 sm:grid-cols-10 justify-items-center"
+            ref="emojiGrid"
+          >
             <EmojiButton v-for="emoji in emojis" :key="emoji" :emoji="emoji" class="grow-0" />
           </div>
+
+          <span class="w-auto" aria-hidden="true" ref="sizer"></span>
         </div>
       </UContainer>
 

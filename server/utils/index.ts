@@ -1,5 +1,5 @@
-import { H3Event } from "h3"
-import { ChatCompletionRequestMessage } from "openai-edge"
+import { ChatCompletionRequestMessage } from "openai-edge";
+import split from "lodash.split";
 
 export const createMessages = (prompt: string): ChatCompletionRequestMessage[] => [
   {
@@ -10,24 +10,8 @@ export const createMessages = (prompt: string): ChatCompletionRequestMessage[] =
     role: "user",
     content: `Generate 20 emojis relevant to the prompt: "${prompt}". Do not repeat emojis.`,
   },
-]
+];
 
-export const streamResponse = (event: H3Event, stream: ReadableStream) => {
-  event._handled = true
+export const uniq = <T>(arr: T[]) => Array.from(new Set(arr));
 
-  // @ts-expect-error _data will be there.
-  event.node.res._data = stream
-
-  if (event.node.res.socket) {
-    stream.pipeTo(
-      new WritableStream({
-        write(chunk) {
-          event.node.res.write(chunk)
-        },
-        close() {
-          event.node.res.end()
-        },
-      })
-    )
-  }
-}
+export const splitEmojis = (text: string) => (text ? split(text.replace(/\s/g, ""), "") : []);
