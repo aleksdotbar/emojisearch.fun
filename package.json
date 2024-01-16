@@ -19,11 +19,7 @@
     "@vueuse/nuxt": "^10.7.0",
     "nuxt": "^3.8.2",
     "nuxt-vercel-analytics": "^1.0.0",
-    "openai-edge": "^1.2.2"
-  },
-  "dependencies": {
-    "@tanstack/vue-query": "^5.14.4",
-    "ai": "^2.2.29",
+    "openai-edge": "^1.2.2",
     "lodash.split": "^4.4.2"
   }
 }

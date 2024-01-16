@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useQuery } from "@tanstack/vue-query";
-
 useServerSeoMeta({
   title: "AI-powered Emoji Search",
   description: "Find emojis for any context",
@@ -19,37 +17,44 @@ useServerSeoMeta({
 });
 
 const route = useRoute();
-
-const prompt = computed(() => route.query.prompt?.toString().trim());
-
-const params = reactive({ prompt });
-
-const { data, error, isLoading } = useQuery({
-  queryKey: ["emojis", params],
-  queryFn: () => $fetch("/api/completion", { params }),
-  enabled: () => !!prompt.value,
-});
-
-const sizer = ref<HTMLSpanElement>();
-
 const router = useRouter();
 
-const onSubmit = async (e: Event) => {
-  const form = e.target as HTMLFormElement;
-  const formData = new FormData(form);
-  const newPrompt = formData.get("prompt")?.toString().trim();
+const params = reactive({
+  query: computed({
+    get: () => route.query.q?.toString().trim() ?? "",
+    set: (q) => {
+      router.push({ query: { q } });
+    },
+  }),
+});
 
-  if (newPrompt && newPrompt !== prompt.value) {
-    await router.push({ query: { prompt: newPrompt } });
+const {
+  data,
+  error,
+  pending: isFetching,
+  refresh: refetch,
+} = useFetch("/api/completion", { params, server: false, immediate: !!params.query });
+
+const inputRef = ref<ComponentPublicInstance>();
+
+const input = computed(() => inputRef.value?.$el.firstChild as HTMLInputElement | undefined);
+
+const onSubmit = async () => {
+  const newQuery = input.value?.value.toString().trim();
+
+  if (!newQuery) return;
+
+  if (newQuery === params.query) {
+    await refetch();
+  } else {
+    params.query = newQuery;
   }
 };
 
-const input = ref<ComponentPublicInstance>();
-
 whenever(
-  logicNot(isLoading),
+  logicNot(isFetching),
   () => {
-    input.value?.$el.firstChild.select();
+    input.value?.select();
   },
   { flush: "post" }
 );
@@ -66,17 +71,20 @@ whenever(
         <div class="mt-16 max-w-md mx-auto">
           <form @submit.prevent="onSubmit">
             <UInput
-              :model-value="prompt"
-              :loading="isLoading"
-              ref="input"
-              name="prompt"
+              :model-value="params.query"
+              :loading="isFetching"
+              ref="inputRef"
               size="xl"
               autofocus
             >
               <template #leading>
-                <span class="text-xs" :class="{ 'animate-spin': isLoading }">
-                  {{ isLoading ? "⏳" : "🔍" }}
-                </span>
+                <span class="text-xs">🔍</span>
+              </template>
+
+              <template #trailing>
+                <ClientOnly>
+                  <span v-if="isFetching" class="text-xs animate-spin">⏳</span>
+                </ClientOnly>
               </template>
             </UInput>
           </form>
@@ -87,14 +95,12 @@ whenever(
           </div>
 
           <div
-            v-else-if="!isLoading"
+            v-else
             class="mt-6 grid grid-cols-6 sm:grid-cols-10 justify-items-center"
             ref="emojiGrid"
           >
-            <EmojiButton v-for="emoji in emojis" :key="emoji" :emoji="emoji" class="grow-0" />
+            <EmojiButton v-for="emoji in data" :key="emoji" :emoji="emoji" class="grow-0" />
           </div>
-
-          <span class="w-auto" aria-hidden="true" ref="sizer"></span>
         </div>
       </UContainer>
 
