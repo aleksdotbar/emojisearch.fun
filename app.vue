@@ -33,7 +33,9 @@ const {
   error,
   pending: isFetching,
   refresh: refetch,
-} = useFetch("/api/completion", { params, server: false, immediate: !!params.query });
+} = useLazyFetch("/api/completion", { params, server: false, immediate: !!params.query });
+
+isFetching.value = !!params.query && !!process.client;
 
 const inputRef = ref<ComponentPublicInstance>();
 
