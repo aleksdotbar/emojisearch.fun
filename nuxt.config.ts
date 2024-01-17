@@ -36,9 +36,9 @@ export default defineNuxtConfig({
   pwa: {
     registerType: "autoUpdate",
     manifest: {
-      name: "Nuxt Vite PWA",
-      short_name: "NuxtVitePWA",
-      theme_color: "#ffffff",
+      name: "Emoji Search",
+      short_name: "EmojiSearch",
+      theme_color: "#121212",
       icons: [
         {
           src: "pwa-192x192.png",

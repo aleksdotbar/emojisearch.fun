@@ -123,6 +123,7 @@ whenever(
       </footer>
     </Body>
   </Html>
+  <NuxtPwaManifest />
 </template>
 
 <style>
