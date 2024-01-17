@@ -34,11 +34,11 @@ export default defineNuxtConfig({
     fonts: ["Chewy"],
   },
   pwa: {
-    registerType: "autoUpdate",
     manifest: {
       name: "Emoji Search",
       short_name: "EmojiSearch",
       theme_color: "#121212",
+      background_color: "#121212",
       icons: [
         {
           src: "pwa-192x192.png",
@@ -60,16 +60,6 @@ export default defineNuxtConfig({
     },
     workbox: {
       globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
-    },
-    client: {
-      installPrompt: true,
-      periodicSyncForUpdates: 3600,
-    },
-    devOptions: {
-      enabled: true,
-      suppressWarnings: true,
-      navigateFallbackAllowlist: [/^\/$/],
-      type: "module",
     },
   },
 });
