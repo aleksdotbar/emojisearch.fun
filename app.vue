@@ -14,6 +14,7 @@ useServerSeoMeta({
   twitterTitle: "emojisearch.fun",
   twitterDescription: "AI-powered Emoji Search",
   twitterCreator: "@xanderbarkhatov",
+  themeColor: "#121212",
 });
 
 const route = useRoute();
