@@ -8,30 +8,7 @@ const config = new Configuration({ apiKey });
 
 const openai = new OpenAIApi(config);
 
-export const getEmojis = async (prompt: string) => {
-  const emojisPromise = generateEmojis(prompt);
-
-  const cachedEmojis = await getCachedEmojis(prompt);
-
-  if (cachedEmojis.length) {
-    emojisPromise.then((emojis) => {
-      cacheEmojis(
-        prompt,
-        emojis.filter((emoji) => !cachedEmojis.includes(emoji))
-      );
-    });
-
-    return cachedEmojis;
-  }
-
-  const emojis = await emojisPromise;
-
-  cacheEmojis(prompt, emojis);
-
-  return emojis;
-};
-
-const generateEmojis = async (prompt: string) => {
+export const generateEmojis = async (prompt: string) => {
   const {
     choices: [{ message }],
   } = await openai
@@ -62,13 +39,13 @@ const generateEmojis = async (prompt: string) => {
 
 const key = (prompt: string) => `emojis:${prompt}`;
 
-const cacheEmojis = async (prompt: string, emojis: Array<string>) => {
+export const cacheEmojis = async (prompt: string, emojis: Array<string>) => {
   if (emojis.length) {
     await kv.rpush(key(prompt), ...emojis);
   }
 };
 
-const getCachedEmojis = async (prompt: string) => {
+export const getCachedEmojis = async (prompt: string) => {
   return await kv.lrange(key(prompt), 0, -1);
 };
 
