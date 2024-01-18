@@ -27,5 +27,5 @@ export default cachedEventHandler(
 
     return emojis;
   },
-  { swr: true, maxAge: 1 }
+  { swr: true, staleMaxAge: 1 }
 );
