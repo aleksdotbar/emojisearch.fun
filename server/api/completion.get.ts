@@ -1,31 +1,26 @@
-export default cachedEventHandler(
-  async (event): Promise<Array<string>> => {
-    const { query } = getQuery(event);
+export default eventHandler(async (event): Promise<Array<string>> => {
+  const { query } = getQuery(event);
 
-    const prompt = query?.toString().trim().toLowerCase();
+  const prompt = query?.toString().trim().toLowerCase();
 
-    if (!prompt) return [];
+  if (!prompt) return [];
 
-    const emojisPromise = generateEmojis(prompt);
+  const [emojis, cachedEmojis] = await Promise.all([
+    generateEmojis(prompt),
+    getCachedEmojis(prompt),
+  ]);
 
-    const cachedEmojis = await getCachedEmojis(prompt);
+  setHeader(event, "Cache-Control", "public, s-max-age=1, stale-while-revalidate=2");
 
-    if (cachedEmojis.length) {
-      emojisPromise.then((emojis) => {
-        cacheEmojis(
-          prompt,
-          emojis.filter((emoji) => !cachedEmojis.includes(emoji))
-        );
-      });
-
-      return cachedEmojis;
-    }
-
-    const emojis = await emojisPromise;
-
+  if (!cachedEmojis.length) {
     cacheEmojis(prompt, emojis);
 
     return emojis;
-  },
-  { swr: true, staleMaxAge: 1 }
-);
+  }
+
+  const newEmojis = emojis.filter((emoji) => !cachedEmojis.includes(emoji));
+
+  cacheEmojis(prompt, newEmojis);
+
+  return [...cachedEmojis, ...newEmojis];
+});
