@@ -11,21 +11,19 @@ export default cachedEventHandler(
     const cachedEmojis = await getCachedEmojis(prompt);
 
     if (cachedEmojis.length) {
-      event.waitUntil(
-        emojisPromise.then((emojis) => {
-          cacheEmojis(
-            prompt,
-            emojis.filter((emoji) => !cachedEmojis.includes(emoji))
-          );
-        })
-      );
+      emojisPromise.then((emojis) => {
+        cacheEmojis(
+          prompt,
+          emojis.filter((emoji) => !cachedEmojis.includes(emoji))
+        );
+      });
 
       return cachedEmojis;
     }
 
     const emojis = await emojisPromise;
 
-    event.waitUntil(cacheEmojis(prompt, emojis));
+    cacheEmojis(prompt, emojis);
 
     return emojis;
   },
