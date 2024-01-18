@@ -13,14 +13,14 @@ export default eventHandler(async (event): Promise<Array<string>> => {
   setHeader(event, "Cache-Control", "public, s-max-age=1, stale-while-revalidate=59");
 
   if (!cachedEmojis.length) {
-    cacheEmojis(prompt, emojis);
+    await cacheEmojis(prompt, emojis);
 
     return emojis;
   }
 
   const newEmojis = emojis.filter((emoji) => !cachedEmojis.includes(emoji));
 
-  cacheEmojis(prompt, newEmojis);
+  await cacheEmojis(prompt, newEmojis);
 
   return [...cachedEmojis, ...newEmojis];
 });
