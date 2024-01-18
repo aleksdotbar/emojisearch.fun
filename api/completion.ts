@@ -3,11 +3,12 @@ import { getCachedEmojis, cacheEmojis, generateEmojis } from "./_utils";
 
 export const config = {
   runtime: "edge",
-  regions: ["pdx1"],
 };
 
 export default async (req: Request, ctx: RequestContext): Promise<Response> => {
-  const searchParams = new URLSearchParams(req.url);
+  const { searchParams } = new URL(req.url);
+
+  console.log(req.url, searchParams, new URL(req.url));
 
   const prompt = searchParams.get("query")?.trim().toLowerCase();
 
