@@ -1,10 +1,8 @@
 import { kv } from "@vercel/kv";
-import split from "lodash.split";
 import { Configuration, OpenAIApi } from "openai-edge";
+import split from "lodash.split";
 
-const { openaiApiKey: apiKey } = useRuntimeConfig();
-
-const config = new Configuration({ apiKey });
+const config = new Configuration({ apiKey: process.env.NUXT_OPENAI_API_KEY });
 
 const openai = new OpenAIApi(config);
 

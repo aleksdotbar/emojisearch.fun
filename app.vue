@@ -32,11 +32,15 @@ const params = reactive({
 const {
   data,
   error,
-  pending: isFetching,
+  status,
   refresh: refetch,
-} = useLazyFetch("/api/completion", { params, server: false, immediate: !!params.query });
+} = useLazyFetch<Array<string>>("/api/completion", {
+  params,
+  server: false,
+  immediate: !!params.query,
+});
 
-isFetching.value = !!params.query && !!process.client;
+const pending = computed(() => status.value === "pending");
 
 const inputRef = ref<ComponentPublicInstance>();
 
@@ -55,7 +59,7 @@ const onSubmit = async () => {
 };
 
 whenever(
-  logicNot(isFetching),
+  logicNot(pending),
   () => {
     input.value?.select();
   },
@@ -75,7 +79,7 @@ whenever(
           <form @submit.prevent="onSubmit">
             <UInput
               :model-value="params.query"
-              :loading="isFetching"
+              :loading="pending"
               ref="inputRef"
               size="xl"
               autofocus
@@ -86,7 +90,7 @@ whenever(
 
               <template #trailing>
                 <ClientOnly>
-                  <span v-if="isFetching" class="text-xs animate-spin">⏳</span>
+                  <span v-if="pending" class="text-xs animate-spin">⏳</span>
                 </ClientOnly>
               </template>
             </UInput>
