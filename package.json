@@ -22,5 +22,8 @@
     "nuxt": "^3.8.2",
     "nuxt-vercel-analytics": "^1.0.0",
     "openai-edge": "^1.2.2"
+  },
+  "dependencies": {
+    "emoji.json": "^15.1.0"
   }
 }

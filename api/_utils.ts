@@ -1,6 +1,7 @@
 import { kv } from "@vercel/kv";
 import { Configuration, OpenAIApi } from "openai-edge";
 import split from "lodash.split";
+import emojiList from "emoji.json/emoji-compact.json";
 
 const config = new Configuration({ apiKey: process.env.NUXT_OPENAI_API_KEY });
 
@@ -30,9 +31,9 @@ export const generateEmojis = async (prompt: string) => {
     })
     .then((r) => r.json());
 
-  const emojis = uniq(splitEmojis(message.content)).filter((c) => c !== "‍" && c !== "");
+  const validEmojis = splitEmojis(message.content).filter(isValidEmoji);
 
-  return emojis;
+  return uniq(validEmojis);
 };
 
 const key = (prompt: string) => `emojis:${prompt}`;
@@ -50,3 +51,5 @@ export const getCachedEmojis = async (prompt: string) => {
 const uniq = <T>(arr: T[]) => Array.from(new Set(arr));
 
 const splitEmojis = (text: string) => (text ? split(text.replace(/\s/g, ""), "") : []);
+
+const isValidEmoji = (emoji: string) => emojiList.includes(emoji);

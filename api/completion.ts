@@ -1,4 +1,4 @@
-import { RequestContext, json } from "@vercel/edge";
+import { type RequestContext, json } from "@vercel/edge";
 import { getCachedEmojis, cacheEmojis, generateEmojis } from "./_utils";
 
 export const config = {
@@ -8,12 +8,10 @@ export const config = {
 export default async (req: Request, ctx: RequestContext): Promise<Response> => {
   const { searchParams } = new URL(req.url);
 
-  console.log(req.url, searchParams, new URL(req.url));
-
   const prompt = searchParams.get("query")?.trim().toLowerCase();
 
   if (!prompt) {
-    return new Response("Missing query", { status: 400 });
+    return json({ error: "Missing query" }, { status: 400 });
   }
 
   const emojisPromise = generateEmojis(prompt);

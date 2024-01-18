@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  emoji.json:
+    specifier: ^15.1.0
+    version: 15.1.0
+
 devDependencies:
   '@nuxthq/ui':
     specifier: ^2.7.0
@@ -4560,6 +4565,10 @@ packages:
   /emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
     dev: true
+
+  /emoji.json@15.1.0:
+    resolution: {integrity: sha512-GqE6SCE8rSc5Gyd+oh6s/pkoNSW/pULdgJTB6jd/sM87FWA/a1nmvFMdWBjvSA5vdomzDvZgy584KNgzdYJwDA==}
+    dev: false
 
   /encodeurl@1.0.2:
     resolution: {integrity: sha512-TPJXq8JqFaVYm2CWmPvnP2Iyo4ZSM7/QKcSmuMLDObfpH5fi7RUGmd/rTDf+rut/saiDiQEeVTNgAmJEdAOx0w==}
