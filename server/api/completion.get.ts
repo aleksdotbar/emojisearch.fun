@@ -10,7 +10,7 @@ export default eventHandler(async (event): Promise<Array<string>> => {
     getCachedEmojis(prompt),
   ]);
 
-  setHeader(event, "Cache-Control", "public, s-max-age=1, stale-while-revalidate=2");
+  setHeader(event, "Cache-Control", "public, s-max-age=1, stale-while-revalidate=59");
 
   if (!cachedEmojis.length) {
     cacheEmojis(prompt, emojis);
