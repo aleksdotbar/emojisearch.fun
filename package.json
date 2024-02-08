@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "emojisearch.fun",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -21,7 +21,8 @@
     "lodash.split": "^4.4.2",
     "nuxt": "^3.8.2",
     "nuxt-vercel-analytics": "^1.0.0",
-    "openai-edge": "^1.2.2"
+    "openai-edge": "^1.2.2",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "emoji.json": "^15.1.0"

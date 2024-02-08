@@ -58,10 +58,11 @@ const onSubmit = async () => {
   }
 };
 
-whenever(
-  logicNot(pending),
+watchEffect(
   () => {
-    input.value?.select();
+    if (!pending.value) {
+      input.value?.select();
+    }
   },
   { flush: "post" }
 );
@@ -77,13 +78,7 @@ whenever(
 
         <div class="mt-16 max-w-md mx-auto">
           <form @submit.prevent="onSubmit">
-            <UInput
-              :model-value="params.query"
-              :loading="pending"
-              ref="inputRef"
-              size="xl"
-              autofocus
-            >
+            <UInput :model-value="params.query" :loading="pending" ref="inputRef" size="xl">
               <template #leading>
                 <span class="text-xs">🔍</span>
               </template>
@@ -97,8 +92,14 @@ whenever(
           </form>
 
           <div v-if="error" class="mt-6">
-            <div class="text-2xl text-center">😢</div>
-            <p class="mt-2 text-red-500 text-center">Something's not right. Please try again.</p>
+            <template v-if="error.statusCode === 429">
+              <div class="text-2xl text-center">✋</div>
+              <p class="mt-2 text-red-500 text-center">Woah! Hold up. Cool down for a bit.</p>
+            </template>
+            <template v-else>
+              <div class="text-2xl text-center">😢</div>
+              <p class="mt-2 text-red-500 text-center">Something's not right. Please try again.</p>
+            </template>
           </div>
 
           <div
