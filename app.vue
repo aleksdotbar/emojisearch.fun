@@ -13,7 +13,6 @@ useServerSeoMeta({
   twitterCard: "summary_large_image",
   twitterTitle: "emojisearch.fun",
   twitterDescription: "AI-powered Emoji Search",
-  twitterCreator: "@xanderbarkhatov",
   themeColor: "#121212",
 });
 
@@ -111,22 +110,6 @@ watchEffect(
           </div>
         </div>
       </UContainer>
-
-      <footer>
-        <UContainer class="mt-16 mb-8">
-          <div class="text-center text-gray-400">
-            Made with 💚 by
-            <NuxtLink
-              to="https://xanderbarkhatov.com"
-              target="_blank"
-              class="text-sky-500 hover:underline"
-              external
-            >
-              xanderbarkhatov
-            </NuxtLink>
-          </div>
-        </UContainer>
-      </footer>
     </Body>
   </Html>
   <NuxtPwaManifest />
