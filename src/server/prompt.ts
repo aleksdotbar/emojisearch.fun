@@ -9,6 +9,7 @@ Rules:
 5. Return at least 10 emojis, more is better
 6. Never repeat emojis
 7. Return emojis in order from most to least relevant
+8. Output STRICT minified JSON only (single line, no markdown, no comments)
 `;
 }
 

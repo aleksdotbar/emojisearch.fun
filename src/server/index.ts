@@ -2,11 +2,17 @@ import type { GatewayProviderOptions } from "@ai-sdk/gateway";
 import type { OpenAIResponsesProviderOptions } from "@ai-sdk/openai";
 import { zValidator } from "@hono/zod-validator";
 import { createGateway, embed, generateText, Output } from "ai";
-import { env } from "cloudflare:workers";
 import emojilib from "emojilib";
 import { Hono } from "hono";
+import { createWorkersAI } from "workers-ai-provider";
 import * as z from "zod";
 import { prompt, systemPrompt } from "./prompt";
+
+const SELECTOR_MODEL = "openai/gpt-oss-120b";
+const EMBEDDING_MODEL = "@cf/baai/bge-small-en-v1.5";
+const MATCH_TOP_K = 100;
+const SEARCH_CACHE_TTL_SECONDS = 60 * 60 * 24 * 7;
+const MIN_EMOJIS_TO_CACHE = 10;
 
 const app = new Hono<{ Bindings: Env }>()
   .basePath("/api")
@@ -47,31 +53,25 @@ const app = new Hono<{ Bindings: Env }>()
     }
   );
 
-const EMBEDDING_MODEL = "openai/text-embedding-3-small";
-const MATCH_TOP_K = 100;
-const RERANK_MODEL = "openai/gpt-oss-120b";
-const SEARCH_CACHE_TTL_SECONDS = 60 * 60 * 24 * 7;
-const MIN_EMOJIS_TO_CACHE = 10;
-
-const gateway = createGateway({ apiKey: env.AI_GATEWAY_API_KEY });
-
 async function searchEmojis(env: Env, query: string): Promise<Array<string>> {
   const normalizedQuery = normalizeQuery(query);
-  const searchCacheKey = `search:${RERANK_MODEL}:${normalizedQuery}`;
+  const searchCacheKey = `search:${SELECTOR_MODEL}:${normalizedQuery}`;
 
-  const cachedSearch = await env.EMOJI_CACHE.get<Array<string>>(searchCacheKey, "json");
-  if (cachedSearch?.length) {
-    return cachedSearch;
-  }
+  // const cachedSearch = await env.EMOJI_CACHE.get<Array<string>>(searchCacheKey, "json");
+  // if (cachedSearch?.length) {
+  //   return cachedSearch;
+  // }
 
   const candidates = await getMatches(env, normalizedQuery);
 
+  const gateway = createGateway({ apiKey: env.AI_GATEWAY_API_KEY });
+
   const { output } = await generateText({
-    model: gateway(RERANK_MODEL),
+    model: gateway(SELECTOR_MODEL),
     system: systemPrompt(),
     prompt: prompt(normalizedQuery, candidates),
+    temperature: 0,
     timeout: 10_000,
-    temperature: 0.1,
     providerOptions: {
       gateway: {
         order: ["cerebras"],
@@ -89,11 +89,11 @@ async function searchEmojis(env: Env, query: string): Promise<Array<string>> {
 
   const emojis = dedupeEmojis(output.emojis);
 
-  if (emojis.length >= MIN_EMOJIS_TO_CACHE) {
-    await env.EMOJI_CACHE.put(searchCacheKey, JSON.stringify(emojis), {
-      expirationTtl: SEARCH_CACHE_TTL_SECONDS,
-    });
-  }
+  // if (emojis.length >= MIN_EMOJIS_TO_CACHE) {
+  //   await env.EMOJI_CACHE.put(searchCacheKey, JSON.stringify(emojis), {
+  //     expirationTtl: SEARCH_CACHE_TTL_SECONDS,
+  //   });
+  // }
 
   return emojis;
 }
@@ -109,14 +109,18 @@ type MatchedEmoji = {
 
 async function getMatches(env: Env, normalizedQuery: string): Promise<Array<MatchedEmoji>> {
   const matchesCacheKey = `matches:${EMBEDDING_MODEL}:${MATCH_TOP_K}:${normalizedQuery}`;
-  const cachedMatches = await env.EMOJI_CACHE.get<Array<MatchedEmoji>>(matchesCacheKey, "json");
+  // const cachedMatches = await env.EMOJI_CACHE.get<Array<MatchedEmoji>>(matchesCacheKey, "json");
 
-  if (cachedMatches?.length) {
-    return cachedMatches;
-  }
+  // if (cachedMatches?.length) {
+  //   return cachedMatches;
+  // }
+
+  const workersAI = createWorkersAI({ binding: env.AI });
 
   const { embedding } = await embed({
-    model: gateway.embeddingModel(EMBEDDING_MODEL),
+    model: workersAI.textEmbedding(
+      EMBEDDING_MODEL as Parameters<typeof workersAI.textEmbedding>[0]
+    ),
     value: normalizedQuery,
   });
 
@@ -127,7 +131,7 @@ async function getMatches(env: Env, normalizedQuery: string): Promise<Array<Matc
     keywords: emojilib[match.id] ?? [],
   }));
 
-  await env.EMOJI_CACHE.put(matchesCacheKey, JSON.stringify(matchedEmojis));
+  // await env.EMOJI_CACHE.put(matchesCacheKey, JSON.stringify(matchedEmojis));
 
   return matchedEmojis;
 }

@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "emojisearch",
   "main": "./src/server/index.ts",
-  "compatibility_date": "2025-10-08",
+  "compatibility_date": "2026-02-15",
   "observability": {
     "enabled": true
   },
@@ -14,10 +14,14 @@
   "vectorize": [
     {
       "binding": "VECTORIZE",
-      "index_name": "emojisearch",
+      "index_name": "emojisearch-v2",
       "remote": true
     }
   ],
+  "ai": {
+    "binding": "AI",
+    "remote": true
+  },
   "kv_namespaces": [
     {
       "binding": "EMOJI_CACHE",
